@@ -188,6 +188,10 @@ async def fallback_handler(message: Message):
 # FastAPI для "пробуждения" через HTTP
 app = FastAPI()
 
+@app.get("/")
+async def health_check():
+    return {"status": "healthy", "message": "Бот жив! 🐩"}
+
 @app.get("/wake")
 async def wake():
     return {"status": "awake", "message": "Чип на связи! 🌰"}
