@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup
 from aiogram.filters import CommandStart
 from groq import Groq
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 import uvicorn
 import threading
 
@@ -194,7 +194,7 @@ async def health_check():
 
 @app.head("/")
 async def health_check_head():
-    return {"status": "healthy"}
+    return Response(status_code=200)
 
 @app.get("/wake")
 async def wake():
@@ -202,7 +202,7 @@ async def wake():
 
 @app.head("/wake")
 async def wake_head():
-    return {"status": "awake"}
+    return Response(status_code=200)
 
 async def start_bot():
     asyncio.create_task(daily_reminder_task())
