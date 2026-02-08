@@ -192,9 +192,17 @@ app = FastAPI()
 async def health_check():
     return {"status": "healthy", "message": "Бот жив! 🐩"}
 
+@app.head("/")
+async def health_check_head():
+    return {"status": "healthy"}
+
 @app.get("/wake")
 async def wake():
     return {"status": "awake", "message": "Чип на связи! 🌰"}
+
+@app.head("/wake")
+async def wake_head():
+    return {"status": "awake"}
 
 async def start_bot():
     asyncio.create_task(daily_reminder_task())
