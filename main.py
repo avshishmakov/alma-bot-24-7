@@ -205,18 +205,26 @@ async def wake_head():
     return Response(status_code=200)
 
 async def start_bot():
+    # Запускаем напоминания в фоне
     asyncio.create_task(daily_reminder_task())
     print("✅ Бот запущен (24/7 на Render + UptimeRobot)")
     print(f"⏰ Напоминания в 20:30 по Новосибирску (UTC+7)")
+    # Запускаем бота
     await dp.start_polling(bot)
 
 def run_bot():
     asyncio.run(start_bot())
 
 if __name__ == "__main__":
+    import threading
+    
     # Запускаем бота в отдельном потоке
     bot_thread = threading.Thread(target=run_bot, daemon=True)
     bot_thread.start()
+    
+    # Ждём 3 секунды, чтобы бот успел подключиться к Telegram
+    import time
+    time.sleep(3)
     
     # Запускаем FastAPI сервер на порту 8000
     uvicorn.run(app, host="0.0.0.0", port=8000)
